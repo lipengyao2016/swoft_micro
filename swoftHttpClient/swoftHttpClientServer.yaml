@@ -1,0 +1,45 @@
+apiVersion: apps/v1 
+kind: Deployment
+metadata:
+  name: swoft-client-server
+  labels:
+    server: swoft-client
+spec:
+  selector:
+    matchLabels:
+      server: swoft-client
+  replicas: 1
+  template: 
+    metadata:
+      labels:
+        server: swoft-client
+    spec:
+      containers:
+      - name: swoft-client-server
+        image: registry.cn-shenzhen.aliyuncs.com/shenj/swoft_client:1.1
+        ports:
+        - containerPort: 18306
+        env:
+        - name: dockerip
+          value: 127.0.0.2
+        
+        
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: swoft-client-server
+  labels:
+    server: swoft-client
+spec:
+  selector:
+    server: swoft-client
+  type: NodePort
+  # clusterIP: 10.106.100.2
+  ports:
+  - name: http
+    protocol: TCP
+    nodePort: 32000
+    port: 18306
+    targetPort: 18306
