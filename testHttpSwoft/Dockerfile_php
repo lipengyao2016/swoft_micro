@@ -1,0 +1,29 @@
+FROM swoft/swoft
+
+LABEL maintainer="lpy <yao50cn@163.com>" version="2.6"
+
+# This php version
+ENV PHP_VERSION=72
+# This is tracker ini config
+ENV SWOOLE_TRACHER_INI=/usr/local/etc/php/conf.d/swoole-tracker.ini
+
+ADD . /var/www/swoft
+
+# The address here is displayed on the client side.
+RUN  cd ./swoole-tracker && ./deploy_env.sh www.swoole-cloud.com \
+    && chmod 777 /var/www/swoft/entrypoint.sh \
+    && php_dir=$(php -r "echo @ini_get("extension_dir").PHP_EOL;") \
+    && cp ./swoole_tracker${PHP_VERSION}.so $php_dir/swoole_tracker.so \
+    # Enable swoole_tracker
+    && echo "extension=swoole_tracker.so" > ${SWOOLE_TRACHER_INI} \
+    # Open the main switch
+    && echo "apm.enable=1" >> ${SWOOLE_TRACHER_INI} \
+    # Sampling Rate, eg: 10%
+    && echo "apm.sampling_rate=100" >> ${SWOOLE_TRACHER_INI} \
+    # Turn on memory leak detection Default 0 Off
+    && echo "apm.enable_memcheck=1" >> ${SWOOLE_TRACHER_INI}
+
+CMD ["sh", "./entrypoint.sh"]
+
+#CMD nohup sh -c '/opt/swoole/script/php/swoole_php /opt/swoole/node-agent/src/node.php & && php /var/www/swoft/bin/swoft http:start'
+#CMD ["php", "/var/www/swoft/bin/swoft", "http:start"]

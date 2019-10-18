@@ -1,0 +1,36 @@
+#!/bin/sh
+apollo_update_flag=/var/www/swoft/runtime/apollo_update.flag
+echo $apollo_update_flag
+/opt/swoole/script/php/swoole_php /opt/swoole/node-agent/src/node.php &
+php /var/www/swoft/bin/swoft agent:index &
+echo "agent execute ok..."
+checkUpdateFlagExist() {
+  local counter=0
+  local max_counter=10
+  UPDATE_FLAG="$1"
+  while test $counter -lt $max_counter  ;do
+    if   test -s $UPDATE_FLAG ; then
+       break
+    else
+        printf "."
+        counter=`expr $counter + 1`
+        echo $counter
+        sleep 1
+     fi
+  done
+  if  test $counter -ge $max_counter ; then
+    echo $counter
+    return $counter
+  fi
+  return 0
+}
+ printf "Waiting for apollo config update  startup"
+ checkUpdateFlagExist $apollo_update_flag
+ rc=$?
+ if test $rc != 0 ;
+ then
+   printf "\nApollo config update failed to start in $rc seconds!\n"
+   exit 1;
+ fi
+ printf "\nApollo config update ok!\n"
+ php /var/www/swoft/bin/swoft http:start
