@@ -120,8 +120,8 @@ return [
     ],
     'user'              => [
         'class'   => ServiceClient::class,
-        'host'    => '127.0.0.1',
-        'port'    => 18307,
+        'host'    => config('application.swoft_server_host','sdf'),
+        'port'    => config('application.swoft_server_rpc_port','sdf'),
         'setting' => [
             'timeout'         => 0.5,
             'connect_timeout' => 1.0,
@@ -129,7 +129,7 @@ return [
             'read_timeout'    => 0.5,
         ],
         'packet'  => bean('rpcClientPacket'),
-        'provider' => bean(RpcProvider::class)
+       // 'provider' => bean(RpcProvider::class)
     ],
     'user.pool'         => [
         'class'  => ServicePool::class,

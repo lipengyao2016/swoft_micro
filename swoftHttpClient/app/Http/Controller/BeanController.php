@@ -12,10 +12,13 @@ namespace App\Http\Controller;
 
 use App\Model\Logic\RequestBean;
 use App\Model\Logic\RequestBeanTwo;
+use Co\Http\Client;
 use Swoft\Bean\BeanFactory;
 use Swoft\Co;
 use Swoft\Http\Server\Annotation\Mapping\Controller;
 use Swoft\Http\Server\Annotation\Mapping\RequestMapping;
+use Swoft\Log\Helper\Log;
+
 
 /**
  * Class BeanController
@@ -37,7 +40,18 @@ class BeanController
 
         /** @var RequestBean $request */
         $request = BeanFactory::getRequestBean('requestBean', $id);
-        return $request->getData();
+
+
+        $cli = new Client(config('application.swoft_server_host','sdf'),
+            config('application.swoft_server_http_port','sdf')
+        );
+        $cli->get('/bean/requestClass/');
+        $result = $cli->body;
+        $cli->close();
+
+        Log::debug(__METHOD__.' result:'.$result);
+
+        return ['local' => $request->getData(), 'remote' => $result ];
     }
 
     /**
