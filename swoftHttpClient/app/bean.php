@@ -27,13 +27,13 @@ return [
     ],
     'noticeHandler'      => [
         'class'     => FileHandler::class,
-        'logFile'   => '@runtime/logs/client_notice.log',
+        'logFile'   => '@runtime/logs/notice_tt.log',
         'formatter' => \bean('lineFormatter'),
         'levels'    => 'notice,info,debug,trace',
     ],
     'applicationHandler' => [
         'class'     => FileHandler::class,
-        'logFile'   => '@runtime/logs/client_error.log',
+        'logFile'   => '@runtime/logs/error.log',
         'formatter' => \bean('lineFormatter'),
         'levels'    => 'error,warning',
     ],
@@ -70,6 +70,7 @@ return [
             // \Swoft\Whoops\WhoopsMiddleware::class,
             // Allow use @View tag
             \Swoft\View\Middleware\ViewMiddleware::class,
+            // \Swoft\Swoole\Tracker\Middleware\SwooleTrackerMiddleware::class,
         ],
         'afterMiddlewares' => [
             \Swoft\Http\Server\Middleware\ValidatorMiddleware::class
@@ -77,15 +78,18 @@ return [
     ],
     'db'                => [
         'class'    => Database::class,
-        'dsn'      => config('application.db_dsn','sdf'),
-        'username' => config('application.db_username','2'),
-        'password' => config('application.db_password','3'),
+        /*        'dsn'      => 'mysql:dbname=test;host=139.9.203.84',
+                'username' => 'root',
+                'password' => 'yuefan_lipy_0806',*/
+        'dsn'      => 'mysql:dbname=test;host=192.168.5.59'/*config('application.db_dsn','sdf')*/,
+        'username' => 'root'/*config('application.db_username','2')*/,
+        'password' => '123456'/*config('application.db_password','3')*/,
     ],
     'db2'               => [
         'class'      => Database::class,
-        'dsn'        => config('application.db2_dsn','sdf'),
-        'username'   => config('application.db_username','2'),
-        'password'   => config('application.db_password','3'),
+        'dsn'        => 'mysql:dbname=test2;host=192.168.5.59' /*config('application.db2_dsn','sdf')*/,
+        'username'   => 'root',
+        'password'   => '123456',
         'dbSelector' => bean(DbSelector::class)
     ],
     'db2.pool'          => [
@@ -94,9 +98,9 @@ return [
     ],
     'db3'               => [
         'class'    => Database::class,
-        'dsn'      => config('application.db2_dsn','sdf'),
-        'username' => config('application.db_username','2'),
-        'password' => config('application.db_password','3')
+        'dsn'      =>  'mysql:dbname=test2;host=192.168.5.59' ,
+        'username'   => 'root',
+        'password'   => '123456',
     ],
     'db3.pool'          => [
         'class'    => Pool::class,
@@ -107,7 +111,7 @@ return [
     ],
     'redis'             => [
         'class'    => RedisDb::class,
-        'host'     => config('application.redis_host','sdf'),
+        'host'     => '192.168.5.59',
         'port'     => 6379,
         'database' => 0,
         'option'   => [
@@ -147,31 +151,31 @@ return [
     /*  'setting' => [
           'log_file' => alias('@runtime/swoole.log'),
       ],
-  ],
-  'tcpServer'         => [
-      'port'  => 18309,
-      'debug' => 1,
-  ],
-  /** @see \Swoft\Tcp\Protocol */
+  ],*/
+    /*  'tcpServer'         => [
+          'port'  => 18309,
+          'debug' => 1,
+      ],
+      /** @see \Swoft\Tcp\Protocol */
     /* 'tcpServerProtocol' => [
-         'type'            => \Swoft\Tcp\Packer\JsonPacker::TYPE,
-         // 'type' => \Swoft\Tcp\Packer\SimpleTokenPacker::TYPE,
+          'type'            => \Swoft\Tcp\Packer\JsonPacker::TYPE,
+        // 'type' => \Swoft\Tcp\Packer\SimpleTokenPacker::TYPE,
          // 'openLengthCheck' => true,
      ],*/
-    /*  'cliRouter'         => [
-          // 'disabledGroups' => ['demo', 'test'],
-      ],*/
+    'cliRouter'         => [
+        // 'disabledGroups' => ['demo', 'test'],
+    ],
     /* 'processPool' => [
          'class' => \Swoft\Process\ProcessPool::class,
          'workerNum' => 3
      ],*/
     'apollo' => [
-        'host'    =>'192.168.5.59',
+        'host'    => '192.168.5.59',
         'port' => 8080,
         'timeout' => 6,
         'appId' => 'swoftHttpClient',
     ],
     'consul' => [
-        'host' => config('application.consul_host','sdf')
+        'host' => '192.168.5.59' /*config('application.consul_host','sdf')*/  /*'139.9.203.84'*/ /*config('application.consul_host','sdf')*/,
     ]
 ];

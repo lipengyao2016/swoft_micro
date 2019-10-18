@@ -46,7 +46,7 @@ return [
         'class'    => HttpServer::class,
         'port'     => 18306,
         'listener' => [
-          //  'rpc' => bean('rpcServer')
+            //  'rpc' => bean('rpcServer')
         ],
         'process'  => [
             //  'monitor' => bean(MonitorProcess::class),
@@ -131,36 +131,36 @@ return [
         'class'  => ServicePool::class,
         'client' => bean('user')
     ],
-   /* 'rpcServer'         => [
-        'class' => ServiceServer::class,
-    ],*/
-   /* 'wsServer'          => [
-        'class'   => WebSocketServer::class,
-        'port'    => 18308,
-        'on'      => [
-            // Enable http handle
-            SwooleEvent::REQUEST => bean(RequestListener::class),
-        ],
-        'debug'   => 1,
-        // 'debug'   => env('SWOFT_DEBUG', 0),
-        /* @see WebSocketServer::$setting */
-      /*  'setting' => [
-            'log_file' => alias('@runtime/swoole.log'),
-        ],
-    ],
-    'tcpServer'         => [
-        'port'  => 18309,
-        'debug' => 1,
-    ],
-    /** @see \Swoft\Tcp\Protocol */
-   /* 'tcpServerProtocol' => [
-        'type'            => \Swoft\Tcp\Packer\JsonPacker::TYPE,
-        // 'type' => \Swoft\Tcp\Packer\SimpleTokenPacker::TYPE,
-        // 'openLengthCheck' => true,
-    ],*/
-  /*  'cliRouter'         => [
-        // 'disabledGroups' => ['demo', 'test'],
-    ],*/
+    /* 'rpcServer'         => [
+         'class' => ServiceServer::class,
+     ],*/
+    /* 'wsServer'          => [
+         'class'   => WebSocketServer::class,
+         'port'    => 18308,
+         'on'      => [
+             // Enable http handle
+             SwooleEvent::REQUEST => bean(RequestListener::class),
+         ],
+         'debug'   => 1,
+         // 'debug'   => env('SWOFT_DEBUG', 0),
+         /* @see WebSocketServer::$setting */
+    /*  'setting' => [
+          'log_file' => alias('@runtime/swoole.log'),
+      ],
+  ],
+  'tcpServer'         => [
+      'port'  => 18309,
+      'debug' => 1,
+  ],
+  /** @see \Swoft\Tcp\Protocol */
+    /* 'tcpServerProtocol' => [
+         'type'            => \Swoft\Tcp\Packer\JsonPacker::TYPE,
+         // 'type' => \Swoft\Tcp\Packer\SimpleTokenPacker::TYPE,
+         // 'openLengthCheck' => true,
+     ],*/
+    /*  'cliRouter'         => [
+          // 'disabledGroups' => ['demo', 'test'],
+      ],*/
     /* 'processPool' => [
          'class' => \Swoft\Process\ProcessPool::class,
          'workerNum' => 3
