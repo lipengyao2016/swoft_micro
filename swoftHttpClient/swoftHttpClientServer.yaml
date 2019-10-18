@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
       - name: swoft-client-server
-        image: registry.cn-shenzhen.aliyuncs.com/shenj/swoft_client:1.1
+        image: registry.cn-shenzhen.aliyuncs.com/shenj/swoft_client:1.2
         ports:
         - containerPort: 18306
         env:
