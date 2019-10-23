@@ -26,7 +26,7 @@ class RequestBean
      */
     public function getData(): array
     {
-        return ['requestBean'];
+        return ['local requestBean V2.0'];
     }
 
     /**
