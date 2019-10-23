@@ -37,7 +37,7 @@ class UserService implements UserInterface
     {
         Log::debug(__METHOD__.' id:'.$id.' type:'.$type.' pid:'.posix_getpid().
         ' serviceId:'.$this->commonConfig->getCurServiceID());
-        return ['name' => ['remote list...']];
+        return ['name' => ['remote list V2.0...']];
     }
 
     /**

@@ -25,7 +25,7 @@ class RequestBean
      */
     public function getData(): array
     {
-        return ['requestBean '.$this->data];
+        return ['requestBean '.$this->data.' V2.0'];
     }
 
     /**
