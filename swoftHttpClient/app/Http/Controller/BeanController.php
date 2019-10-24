@@ -59,34 +59,40 @@ class BeanController
             'x-b3-sampled',
             'x-b3-flags',
             'x-ot-span-context',
-          //  'connection'
         );
-        $spanHeaders = ArrayHelper::filter($headers,$incoming_headers);
-        $spanHeaders['ship_id'] = 'chun';
+
+        $swoftServerHost = '192.168.5.61';
+        $swoftServerPort = 8050;
+
+//        $swoftServerHost = config('application.swoft_server_host','sdf');
+//        $swoftServerPort = config('application.swoft_server_http_port','sdf');
+
+        $cli = new Client($swoftServerHost, $swoftServerPort);
+        $clientHeaders = [
+            "host"=> $swoftServerHost.':'.$swoftServerPort,
+            "connection" => "keep-alive",
+            "accept-encoding" => "gzip"
+        ];
+        foreach ($incoming_headers as $headKey => $headVal)
+        {
+            $originHeadVal = $request->getHeader($headVal);
+            $clientHeaders[$headVal] = count($originHeadVal) > 0 ? $originHeadVal[0] : '';
+        }
 
 
+        //$spanHeaders['ship_id'] = 'chun';
         $result = '';
-        $cli = new Client(config('application.swoft_server_host','sdf'),
-            config('application.swoft_server_http_port','sdf')
-        );
 
-        //$cli = new Client('192.168.5.61', 8050);
- /*       $cli->setHeaders(
-            [
-                'x-b3-traceid'=>['ququ'],
-                'Host' => ["192.168.5.61:8050"],
-                'Accept-Encoding' => ['gzip'],
-                "connection"=>["keep-alive"]
-            ]
-        );*/
+       /* $clientHeaders = [
+            "x-request-id" => $request->getHeader('x-request-id'),
+        ];
+        $clientHeaders = ArrayHelper::merge($clientHeaders,$spanHeaders);*/
+   /*     array_walk($clientHeaders,function (&$value,$key)
+        {
+            CLog::info(__METHOD__.' $key:'.json_encode($key).' $value:'.json_encode($value));
+            $value = json_encode($value);
+        });*/
 
-        $clientHeaders = [   'Host' => "localhost",
-            "User-Agent" => 'Chrome/49.0.2587.3',
-            'Accept' => 'text/html,application/xhtml+xml,application/xml',
-            'Accept-Encoding' => 'gzip'];
-
-
-        $clientHeaders = ArrayHelper::merge($clientHeaders,$spanHeaders);
         CLog::info(__METHOD__.' clientHeaders:'.json_encode($clientHeaders));
         $cli->setHeaders($clientHeaders);
 
