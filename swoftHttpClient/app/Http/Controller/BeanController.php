@@ -62,7 +62,7 @@ class BeanController
           //  'connection'
         );
         $spanHeaders = ArrayHelper::filter($headers,$incoming_headers);
-        $spanHeaders['client_id'] = 'lipy';
+        $spanHeaders['ship_id'] = 'chun';
 
 
         $result = '';
