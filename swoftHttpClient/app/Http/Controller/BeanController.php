@@ -13,6 +13,8 @@ namespace App\Http\Controller;
 use App\Model\Logic\RequestBean;
 use App\Model\Logic\RequestBeanTwo;
 use Co\Http\Client;
+//use GuzzleHttp\Client;
+//use GuzzleHttp\HandlerStack;
 use Swoft\Bean\BeanFactory;
 use Swoft\Co;
 use Swoft\Http\Message\Request;
@@ -20,6 +22,8 @@ use Swoft\Http\Server\Annotation\Mapping\Controller;
 use Swoft\Http\Server\Annotation\Mapping\RequestMapping;
 use Swoft\Log\Helper\CLog;
 use Swoft\Log\Helper\Log;
+use Swoft\Stdlib\Helper\ArrayHelper;
+//use Yurun\Util\Swoole\Guzzle\SwooleHandler;
 
 
 /**
@@ -46,20 +50,42 @@ class BeanController
 
         $headers = $request->getHeaders();
         CLog::info(__METHOD__.' headers:'.json_encode($headers));
-       /*  foreach ($headers as $name => $values) {
-             CLog::info(__METHOD__.' name:'.json_encode($name).' value:'.json_encode($values));
-         }*/
 
-        $cli = new Client(config('application.swoft_server_host','sdf'),
+        $incoming_headers = [ 'x-request-id',
+            'x-b3-traceid',
+            'x-b3-spanid',
+            'x-b3-parentspanid',
+            'x-b3-sampled',
+            'x-b3-flags',
+            'x-ot-span-context',
+          //  'connection'
+        ];
+        $spanHeaders = ArrayHelper::filter($headers,$incoming_headers);
+        //$spanHeaders['Accept'] = 'application/json';
+        CLog::info(__METHOD__.' spanHeaders:'.json_encode($spanHeaders));
+
+        $result = '';
+  /*      $cli = new Client(config('application.swoft_server_host','sdf'),
             config('application.swoft_server_http_port','sdf')
-        );
+        );*/
 
-        $cli->setHeaders($headers);
-
+        $cli = new Client('192.168.5.61', 8050);
+        $cli->headers = $spanHeaders;
         $cli->get('/bean/requestClass/');
         $result = $cli->body;
         $cli->close();
 
+     /*   sgo(function() use ($spanHeaders,$result){
+            // todo
+            $testUrl = 'http://192.168.5.61:8050/bean/requestClass/';
+            $handler = new SwooleHandler();
+            $stack = HandlerStack::create($handler);
+            $client = new Client(['handler' => $stack]);
+            $response = $client->request('GET', $testUrl,['headers' => $spanHeaders]);
+            $result = $response->getBody();
+            $statusCode = $response->getStatusCode();
+            CLog::info(__METHOD__.' internel execute ok result:'.json_encode($result));
+        });*/
         CLog::info(__METHOD__.' result:'.json_encode($result));
 
         return ['local' => $requestBean->getData(), 'remote' => $result ];

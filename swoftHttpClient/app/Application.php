@@ -42,7 +42,7 @@ class Application extends SwoftApplication
             'name'    => 'testHttpSwoft',
             'enable'  => true,
             'output'  => true,
-            'levels'  => 'info,error',
+            'levels'  => 'debug,info,error',
             'logFile' => ''
         ];
 
