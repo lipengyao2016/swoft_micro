@@ -13,6 +13,7 @@ use Swoft\Bean\Annotation\Mapping\Inject;
 use Swoft\Bean\BeanFactory;
 use Swoft\Bean\Exception\ContainerException;
 use Swoft\Co;
+use Swoft\Http\Message\Request;
 use Swoft\Http\Server\Annotation\Mapping\Controller;
 use Swoft\Http\Server\Annotation\Mapping\RequestMapping;
 use Swoft\Log\Helper\CLog;
@@ -83,9 +84,12 @@ class BeanController
      *
      * @RequestMapping()
      */
-    public function requestClass(): array
+    public function requestClass(Request $request): array
     {
         $id = (string)Co::tid();
+
+        $headers = $request->getHeaders();
+        CLog::info(__METHOD__.' headers:'.json_encode($headers));
 
         /* @var RequestBeanTwo $request */
         $request = BeanFactory::getRequestBean(RequestBeanTwo::class, $id);

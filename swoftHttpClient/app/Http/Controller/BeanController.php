@@ -51,7 +51,8 @@ class BeanController
         $headers = $request->getHeaders();
         CLog::info(__METHOD__.' headers:'.json_encode($headers));
 
-        $incoming_headers = [ 'x-request-id',
+        $incoming_headers = array(
+            'x-request-id',
             'x-b3-traceid',
             'x-b3-spanid',
             'x-b3-parentspanid',
@@ -59,10 +60,10 @@ class BeanController
             'x-b3-flags',
             'x-ot-span-context',
           //  'connection'
-        ];
+        );
         $spanHeaders = ArrayHelper::filter($headers,$incoming_headers);
-        //$spanHeaders['Accept'] = 'application/json';
-        CLog::info(__METHOD__.' spanHeaders:'.json_encode($spanHeaders));
+        $spanHeaders['client_id'] = 'lipy';
+
 
         $result = '';
         $cli = new Client(config('application.swoft_server_host','sdf'),
@@ -70,7 +71,23 @@ class BeanController
         );
 
         //$cli = new Client('192.168.5.61', 8050);
-        $cli->headers = $spanHeaders;
+ /*       $cli->setHeaders(
+            [
+                'x-b3-traceid'=>['ququ'],
+                'Host' => ["192.168.5.61:8050"],
+                'Accept-Encoding' => ['gzip'],
+                "connection"=>["keep-alive"]
+            ]
+        );*/
+
+        $clientHeaders = [   'Host' => "localhost",
+            "User-Agent" => 'Chrome/49.0.2587.3',
+            'Accept' => 'text/html,application/xhtml+xml,application/xml',
+            'Accept-Encoding' => 'gzip'];
+        $clientHeaders = ArrayHelper::merge($clientHeaders,$spanHeaders);
+        CLog::info(__METHOD__.' clientHeaders:'.json_encode($clientHeaders));
+        $cli->setHeaders($clientHeaders);
+
         $cli->get('/bean/requestClass/');
         $result = $cli->body;
         $cli->close();
