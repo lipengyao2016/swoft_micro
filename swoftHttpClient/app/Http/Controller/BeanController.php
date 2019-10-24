@@ -84,6 +84,8 @@ class BeanController
             "User-Agent" => 'Chrome/49.0.2587.3',
             'Accept' => 'text/html,application/xhtml+xml,application/xml',
             'Accept-Encoding' => 'gzip'];
+
+
         $clientHeaders = ArrayHelper::merge($clientHeaders,$spanHeaders);
         CLog::info(__METHOD__.' clientHeaders:'.json_encode($clientHeaders));
         $cli->setHeaders($clientHeaders);
