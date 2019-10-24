@@ -72,6 +72,8 @@ class RpcController
      */
     public function getListLimit(Request $request): array
     {
+        $headers = $request->header();
+
         $result  = $this->userService->getList(12, 'type');
         //$result2 = $this->userService2->getList(12, 'type');
         Log::debug(__METHOD__.' result:'.json_encode($result));
