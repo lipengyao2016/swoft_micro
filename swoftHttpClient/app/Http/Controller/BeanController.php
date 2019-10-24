@@ -15,6 +15,7 @@ use App\Model\Logic\RequestBeanTwo;
 use Co\Http\Client;
 use Swoft\Bean\BeanFactory;
 use Swoft\Co;
+use Swoft\Http\Message\Request;
 use Swoft\Http\Server\Annotation\Mapping\Controller;
 use Swoft\Http\Server\Annotation\Mapping\RequestMapping;
 use Swoft\Log\Helper\Log;
@@ -34,22 +35,30 @@ class BeanController
      *
      * @return array
      */
-    public function request(): array
+    public function request(Request $request): array
     {
         $id = (string)Co::tid();
 
         /** @var RequestBean $request */
         $request = BeanFactory::getRequestBean('requestBean', $id);
 
+        $headers = $request->getHeaders();
+         foreach ($headers as $name => $values) {
+             CLog::debug(__METHOD__.' name:'.$name.' value:'.json_encode($values));
+         }
+
 
         $cli = new Client(config('application.swoft_server_host','sdf'),
             config('application.swoft_server_http_port','sdf')
         );
+
+         $cli->setHeaders($headers);
+
         $cli->get('/bean/requestClass/');
         $result = $cli->body;
         $cli->close();
 
-        Log::debug(__METHOD__.' result:'.$result);
+        CLog::debug(__METHOD__.' result:'.$result);
 
         return ['local' => $request->getData(), 'remote' => $result ];
     }
