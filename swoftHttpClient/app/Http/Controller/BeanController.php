@@ -65,11 +65,11 @@ class BeanController
         CLog::info(__METHOD__.' spanHeaders:'.json_encode($spanHeaders));
 
         $result = '';
-  /*      $cli = new Client(config('application.swoft_server_host','sdf'),
+        $cli = new Client(config('application.swoft_server_host','sdf'),
             config('application.swoft_server_http_port','sdf')
-        );*/
+        );
 
-        $cli = new Client('192.168.5.61', 8050);
+        //$cli = new Client('192.168.5.61', 8050);
         $cli->headers = $spanHeaders;
         $cli->get('/bean/requestClass/');
         $result = $cli->body;
