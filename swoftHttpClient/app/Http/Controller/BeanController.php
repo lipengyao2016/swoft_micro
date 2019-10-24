@@ -44,10 +44,11 @@ class BeanController
         /** @var RequestBean $request */
         $requestBean = BeanFactory::getRequestBean('requestBean', $id);
 
-        $headers = $request->header();
-         foreach ($headers as $name => $values) {
-             CLog::debug(__METHOD__.' name:'.$name.' value:'.json_encode($values));
-         }
+        $headers = $request->getHeaders();
+        CLog::info(__METHOD__.' headers:'.json_encode($headers));
+       /*  foreach ($headers as $name => $values) {
+             CLog::info(__METHOD__.' name:'.json_encode($name).' value:'.json_encode($values));
+         }*/
 
         $cli = new Client(config('application.swoft_server_host','sdf'),
             config('application.swoft_server_http_port','sdf')
@@ -59,7 +60,7 @@ class BeanController
         $result = $cli->body;
         $cli->close();
 
-        CLog::debug(__METHOD__.' result:'.$result);
+        CLog::info(__METHOD__.' result:'.json_encode($result));
 
         return ['local' => $requestBean->getData(), 'remote' => $result ];
     }
