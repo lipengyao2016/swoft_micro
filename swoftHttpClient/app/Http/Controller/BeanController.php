@@ -61,11 +61,11 @@ class BeanController
             'x-ot-span-context',
         );
 
-        $swoftServerHost = '192.168.5.61';
-        $swoftServerPort = 8050;
+//        $swoftServerHost = '192.168.5.61';
+//        $swoftServerPort = 8050;
 
-//        $swoftServerHost = config('application.swoft_server_host','sdf');
-//        $swoftServerPort = config('application.swoft_server_http_port','sdf');
+        $swoftServerHost = config('application.swoft_server_host','sdf');
+        $swoftServerPort = config('application.swoft_server_http_port','sdf');
 
         $cli = new Client($swoftServerHost, $swoftServerPort);
         $clientHeaders = [
