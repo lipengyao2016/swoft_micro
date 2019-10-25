@@ -19,6 +19,6 @@ class RequestBeanTwo
      */
     public function getData(): array
     {
-        return ['requestBeanTwo Data v2.3'];
+        return ['requestBeanTwo Data v1.8'];
     }
 }
