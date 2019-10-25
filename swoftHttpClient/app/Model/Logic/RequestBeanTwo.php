@@ -26,6 +26,6 @@ class RequestBeanTwo
      */
     public function getData(): array
     {
-        return ['local data V2.0'];
+        return ['local data V1.0'];
     }
 }
