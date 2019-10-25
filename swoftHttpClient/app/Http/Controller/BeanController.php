@@ -59,13 +59,14 @@ class BeanController
             'x-b3-sampled',
             'x-b3-flags',
             'x-ot-span-context',
+            'client_id',
         );
 
-//        $swoftServerHost = '192.168.5.61';
-//        $swoftServerPort = 8050;
+        $swoftServerHost = '192.168.5.61';
+        $swoftServerPort = 8050;
 
-        $swoftServerHost = config('application.swoft_server_host','sdf');
-        $swoftServerPort = config('application.swoft_server_http_port','sdf');
+//        $swoftServerHost = config('application.swoft_server_host','sdf');
+//        $swoftServerPort = config('application.swoft_server_http_port','sdf');
 
         $cli = new Client($swoftServerHost, $swoftServerPort);
         $clientHeaders = [
@@ -76,8 +77,17 @@ class BeanController
         foreach ($incoming_headers as $headKey => $headVal)
         {
             $originHeadVal = $request->getHeader($headVal);
-            $clientHeaders[$headVal] = count($originHeadVal) > 0 ? $originHeadVal[0] : '';
+            if(is_array($originHeadVal))
+            {
+                $clientHeaders[$headVal] = count($originHeadVal) > 0 ? $originHeadVal[0] : '';
+            }
+            else
+            {
+                $clientHeaders[$headVal] = $originHeadVal ? $originHeadVal : '';
+            }
         }
+
+
 
 
         //$spanHeaders['ship_id'] = 'chun';
