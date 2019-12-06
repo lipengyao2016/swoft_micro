@@ -5,6 +5,7 @@ namespace App\Process;
 
 
 use App\Model\Logic\ApolloLogic;
+use App\Model\Logic\KafkaConsumerLogic;
 use App\Model\Logic\MonitorLogic;
 use Swoft\Bean\Annotation\Mapping\Bean;
 use Swoft\Bean\Annotation\Mapping\Inject;
@@ -22,18 +23,13 @@ use Swoft\Process\UserProcess;
  */
 class MonitorProcess extends UserProcess
 {
-    /**
-     * @Inject()
-     *
-     * @var MonitorLogic
-     */
-    private $logic;
+
 
     /**
      * @Inject()
-     * @var ApolloLogic
+     * @var KafkaConsumerLogic
      */
-    private $apolloLogic;
+    private $kafkaConsumerLogic;
 
 
     /**
@@ -45,7 +41,10 @@ class MonitorProcess extends UserProcess
     {
         Log::debug(__METHOD__.' start.');
         //$this->logic->monitor($process);
-        $this->apolloLogic->listen();
+       // $this->apolloLogic->listen();
+
+        $this->kafkaConsumerLogic->consumer();
+
         Log::debug(__METHOD__.' end.');
     }
 }

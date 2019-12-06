@@ -80,13 +80,13 @@ return [
         /*        'dsn'      => 'mysql:dbname=test;host=139.9.203.84',
                 'username' => 'root',
                 'password' => 'yuefan_lipy_0806',*/
-        'dsn'      => 'mysql:dbname=test;host=192.168.5.59'/*config('application.db_dsn','sdf')*/,
+        'dsn'      => /*'mysql:dbname=test;host=192.168.5.53'*/ config('application.db_dsn','sdf'),
         'username' => 'root'/*config('application.db_username','2')*/,
         'password' => '123456'/*config('application.db_password','3')*/,
     ],
     'db2'               => [
         'class'      => Database::class,
-        'dsn'        => 'mysql:dbname=test2;host=192.168.5.59' /*config('application.db2_dsn','sdf')*/,
+        'dsn'        => 'mysql:dbname=test2;host=192.168.5.53' /*config('application.db2_dsn','sdf')*/,
         'username'   => 'root',
         'password'   => '123456',
         'dbSelector' => bean(DbSelector::class)
@@ -97,7 +97,7 @@ return [
     ],
     'db3'               => [
         'class'    => Database::class,
-        'dsn'      =>  'mysql:dbname=test2;host=192.168.5.59' ,
+        'dsn'      =>  'mysql:dbname=test2;host=192.168.5.53' ,
         'username'   => 'root',
         'password'   => '123456',
     ],
@@ -110,7 +110,7 @@ return [
     ],
     'redis'             => [
         'class'    => RedisDb::class,
-        'host'     => '192.168.5.59',
+        'host'     => '192.168.5.53',
         'port'     => 6379,
         'database' => 0,
         'option'   => [
@@ -168,12 +168,12 @@ return [
          'workerNum' => 3
      ],*/
     'apollo' => [
-        'host'    => '192.168.5.59',
-        'port' => 8080,
+        'host'    => '47.113.26.229',
+        'port' => 9080,
         'timeout' => 6,
         'appId' => 'testHttpSwoft',
     ],
     'consul' => [
-        'host' => '192.168.5.59' /*config('application.consul_host','sdf')*/  /*'139.9.203.84'*/ /*config('application.consul_host','sdf')*/,
+        'host' => '192.168.5.53' /*config('application.consul_host','sdf')*/  /*'139.9.203.84'*/ /*config('application.consul_host','sdf')*/,
     ]
 ];

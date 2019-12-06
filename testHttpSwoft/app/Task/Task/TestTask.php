@@ -3,9 +3,12 @@
 
 namespace App\Task\Task;
 
+use App\Model\Logic\KafkaConsumerLogic;
 use Swoft\Log\Helper\Log;
 use Swoft\Task\Annotation\Mapping\Task;
 use Swoft\Task\Annotation\Mapping\TaskMapping;
+use Swoft\Bean\Annotation\Mapping\Bean;
+use Swoft\Bean\Annotation\Mapping\Inject;
 
 /**
  * Class TestTask
@@ -16,6 +19,14 @@ use Swoft\Task\Annotation\Mapping\TaskMapping;
  */
 class TestTask
 {
+
+    /**
+     * @Inject()
+     * @var KafkaConsumerLogic
+     */
+    private $kafkaConsumerLogic;
+
+
     /**
      * @TaskMapping(name="list")
      *
@@ -28,11 +39,19 @@ class TestTask
     {
         Log::debug(__METHOD__.' id:'.$id.' current pid:'.posix_getpid().
         ' extData:'.json_encode(context()->getRequest()->getExt()));
-        return [
+
+        $this->kafkaConsumerLogic->consumer();
+
+
+       return [
             'list'    => [1, 3, 3],
             'id'      => $id,
             'default' => $default
         ];
+
+
+
+
     }
 
     /**

@@ -4,6 +4,7 @@
 namespace App\Http\Controller;
 
 use App\Model\Logic\ApolloLogic;
+use App\Model\Logic\KafkaProducterLogic;
 use App\Model\Logic\RequestBean;
 use App\Model\Logic\RequestBeanTwo;
 use App\service\ISmsInterface;
@@ -39,6 +40,12 @@ class BeanController
      * @var ApolloLogic
      */
     protected $apolloLogic;
+
+
+    /**  @Inject()
+     * @var KafkaProducterLogic
+     */
+    protected $kafkaProducterLogic;
 
     /**
      * @RequestMapping()
@@ -88,12 +95,17 @@ class BeanController
     {
         $id = (string)Co::tid();
 
-        $headers = $request->getHeaders();
-        CLog::info(__METHOD__.' headers:'.json_encode($headers));
+       // $headers = $request->getHeaders();
+        //CLog::info(__METHOD__.' headers:'.json_encode($headers));
 
         /* @var RequestBeanTwo $request */
-        $request = BeanFactory::getRequestBean(RequestBeanTwo::class, $id);
-        Log::debug(__METHOD__.' TID:'.$id.' cls:'.get_class($request));
-        return $request->getData();
+       // $request = BeanFactory::getRequestBean(RequestBeanTwo::class, $id);
+       // Log::debug(__METHOD__.' TID:'.$id.' cls:'.get_class($request));
+
+        $bRet = $this->kafkaProducterLogic->productMsg();
+
+        return ['ret' => $bRet];
+
+       // return $request->getData();
     }
 }

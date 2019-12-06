@@ -47,8 +47,10 @@ class DbTransactionController
             $user = User::find($id);
             $user->update(['name' => 'tran3']);
             DB::commit();
-            Log::debug(__METHOD__.' sgo  curId:'.Co::id());
+            Log::debug(__METHOD__.'2222 sgo  curId:'.Co::id());
         });
+        Log::debug(__METHOD__.' 3333 user:'.json_encode($user).
+            ' curId:'.Co::id());
 
         return json_encode($user->toArray());
     }
