@@ -5,6 +5,7 @@ namespace App\Http\Controller;
 
 use App\Model\Logic\ApolloLogic;
 use App\Model\Logic\KafkaProducterLogic;
+use App\Model\Logic\MongoDBLogic;
 use App\Model\Logic\RequestBean;
 use App\Model\Logic\RequestBeanTwo;
 use App\service\ISmsInterface;
@@ -46,6 +47,13 @@ class BeanController
      * @var KafkaProducterLogic
      */
     protected $kafkaProducterLogic;
+
+
+    /**  @Inject()
+     * @var MongoDBLogic
+     */
+    protected $mongoDBLogic;
+
 
     /**
      * @RequestMapping()
@@ -107,5 +115,56 @@ class BeanController
         return ['ret' => $bRet];
 
        // return $request->getData();
+    }
+
+    /**
+     * @return array
+     * @throws ContainerException
+     * @throws ReflectionException
+     *
+     * @RequestMapping()
+     */
+    public function insertMongodb(Request $request): array
+    {
+        $id = (string)Co::tid();
+
+        $headers = $request->getHeaders();
+        CLog::info(__METHOD__.' headers:'.json_encode($headers));
+
+        $datas = [];
+        for ($i = 0;$i < 5;$i++)
+        {
+            $dataItem = ['id' => 10, 'age' => 25, 'name' => 'xiaowang'];
+            $dataItem['id'] += $i;
+            $dataItem['name'] .= $i;
+            array_push($datas,$dataItem);
+        }
+        $insertRet = $this->mongoDBLogic->getMongoDBDao()->insertMany($datas);
+        CLog::info(__METHOD__.' $insertRet:'.json_encode($insertRet));
+        return ['ret' => $insertRet];
+        // return $request->getData();
+    }
+
+    /**
+     * @return array
+     * @throws ContainerException
+     * @throws ReflectionException
+     *
+     * @RequestMapping()
+     */
+    public function queryMongodb(Request $request): array
+    {
+        $id = (string)Co::tid();
+
+        $headers = $request->getHeaders();
+        CLog::info(__METHOD__.' headers:'.json_encode($headers));
+
+        $datas = [];
+
+        $findRet = $this->mongoDBLogic->getMongoDBDao()->findByPage(['age' => 22],['_id','id','name','age'],null,false
+            ,2,2);
+        CLog::info(__METHOD__.' $findRet:'.json_encode($findRet));
+        return ['ret' => $findRet];
+        // return $request->getData();
     }
 }
