@@ -26,13 +26,13 @@ return [
     ],
     'noticeHandler'      => [
         'class'     => FileHandler::class,
-        'logFile'   => '@runtime/logs/notice_tt.log',
+        'logFile'   => '@runtime/logs/notice_testSwoft-%d{Y-m-d}.log',
         'formatter' => \bean('lineFormatter'),
         'levels'    => 'notice,info,debug,trace',
     ],
     'applicationHandler' => [
         'class'     => FileHandler::class,
-        'logFile'   => '@runtime/logs/error.log',
+        'logFile'   => '@runtime/logs/error_testSwoft-%d{Y-m-d}.log',
         'formatter' => \bean('lineFormatter'),
         'levels'    => 'error,warning',
     ],

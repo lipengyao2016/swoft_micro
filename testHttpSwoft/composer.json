@@ -35,7 +35,8 @@
     "swoft/crontab": "~2.0.0",
     "swoft/devtool": "~2.0.0",
     "swoft/swoole-tracker": "^2.0",
-    "mongodb/mongodb": "^1.5"
+    "mongodb/mongodb": "^1.5",
+    "phpoffice/phpspreadsheet": "^1.10"
   },
   "require-dev": {
     "swoft/swoole-ide-helper": "dev-master",
